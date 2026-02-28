@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NSG | LIVE TACTICAL MONITORING</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* Internal adjustment for YouTube cropping to remove branding */
+        .video-container-yt {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .yt-stream {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150%;
+            height: 150%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .video-feed-live {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(100%) hue-rotate(90deg) brightness(1.2) contrast(1.2);
+        }
+
+        .face-scanner-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: var(--neon-green);
+            box-shadow: 0 0 15px var(--neon-green);
+            top: 0;
+            animation: scan-loop 3s ease-in-out infinite;
+            z-index: 10;
+        }
+
+        @keyframes scan-loop {
+            0% {
+                top: 0;
+            }
+
+            50% {
+                top: 100%;
+            }
+
+            100% {
+                top: 0;
+            }
+        }
+
+        .data-overlay {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-family: monospace;
+            font-size: 10px;
+            color: var(--neon-green);
+            text-shadow: 1px 1px 2px black;
+            z-index: 11;
+        }
+    </style>
+</head>
+
+<body class="command-center" id="main-body">
+
+    <div class="scanlines"></div>
+
+    <header class="hud-header">
+        <div class="logo-section">
+            <span class="glitch-text" data-text="LIVE-OPS">LIVE-OPS</span>
+            <span class="sub-logo">SATELLITE INTERCEPT ACTIVE // NODE: 77.2090° E</span>
+        </div>
+
+        <nav class="hud-nav">
+            <a href="index.html" class="nav-item">SYSTEM HUB</a>
+            <a href="monitor.html" class="nav-item active">LIVE OPS</a>
+            <a href="reports.html" class="nav-item">INTELLIGENCE</a>
+        </nav>
+
+        <div class="system-time">
+            <span id="hex-clock" style="color: var(--neon-blue); font-family: var(--font-heading);">00:00:00</span>
+        </div>
+    </header>
+
+    <main class="monitor-layout">
+
+        <aside class="control-wing">
+            <div class="module-box">
+                <div class="module-label">MISSION CONTROL</div>
+                <button class="action-btn-small active" id="aiToggle">AI PROTOCOL: ON</button>
+                <button class="action-btn-small" onclick="resetAlerts()">CLEAR CACHE</button>
+
+                <div class="range-container" style="margin-top:15px;">
+                    <label style="font-size: 10px; color: var(--neon-blue);">SCAN SENSITIVITY</label>
+                    <input type="range" class="tactical-range" style="width:100%; accent-color: var(--neon-green);">
+                </div>
+            </div>
+
+            <div class="module-box" style="flex-grow: 1;">
+                <div class="module-label">GEOSPATIAL THREAT MAP</div>
+                <div class="map-container" id="map"
+                    style="background: url('https://i.imgur.com/39SIdhG.png') center/cover; height: 250px; border: 1px solid #1a2a3a;">
+                    <div class="map-grid-lines"></div>
+                    <div id="map-dot" class="map-dot"
+                        style="width: 10px; height: 10px; background: red; border-radius: 50%; position: absolute; display: none; box-shadow: 0 0 10px red; animation: pulse 1s infinite;">
+                    </div>
+                </div>
+                <div id="location-text" class="telemetry-readout"
+                    style="font-family: monospace; font-size: 11px; margin-top: 10px;">LOCATION: SECURE</div>
+            </div>
+        </aside>
+
+<section class="video-matrix">
+
+    <div class="cam-box" id="cam1" style="position: relative; background: #000; overflow: hidden; border: 1px solid #1a2a3a;">
+        <div class="cam-header" style="position: absolute; top: 0; left: 0; background: var(--neon-green); color: #000; font-size: 10px; padding: 2px 8px; font-weight: bold; z-index: 15; font-family: 'Orbitron';">
+            CAM 01 // EXTERIOR_PERIMETER
+        </div>
+        <div class="cam-overlay" style="position: absolute; top: 5px; right: 5px; color: red; font-size: 10px; font-family: 'Rajdhani'; z-index: 15; letter-spacing: 1px; font-weight: bold;">
+            REC ●
+        </div>
+        <div class="face-scanner-line"></div>
+        <div id="cam1-bracket" class="target-bracket" style="top: 30%; left: 20%;"></div>
+        <div class="video-container-yt" style="width: 100%; height: 100%; filter: sepia(100%) hue-rotate(90deg) brightness(1.1) contrast(1.3);">
+             <iframe class="yt-stream" src="video1.mp4" frameborder="0" allow="autoplay; encrypted-media" style="width:100%; height:100%; object-fit:cover;"></iframe>
+        </div>
+        <div class="data-overlay" style="position: absolute; bottom: 10px; left: 10px; font-family: monospace; font-size: 9px; color: var(--neon-green); z-index: 11; opacity: 0.8;">
+            GEO_LOCK: 28.527° N<br>
+            SIGNAL: ENCRYPTED
+        </div>
+    </div>
+
+    <div class="cam-box" id="cam2" style="position: relative; background: #000; overflow: hidden; border: 1px solid #1a2a3a;">
+        <div class="cam-header" style="position: absolute; top: 0; left: 0; background: var(--neon-green); color: #000; font-size: 10px; padding: 2px 8px; font-weight: bold; z-index: 15; font-family: 'Orbitron';">
+            CAM 02 // LOBBY_SECURE
+        </div>
+        <div class="cam-overlay" style="position: absolute; top: 5px; right: 5px; color: var(--neon-green); font-size: 10px; font-family: 'Rajdhani'; z-index: 15; letter-spacing: 1px;">
+            LIVE_FEED
+        </div>
+        <div class="face-scanner-line"></div>
+        <div id="cam2-bracket" class="target-bracket" style="top: 50%; left: 60%;"></div>
+        <div class="video-container-yt" style="width: 100%; height: 100%; filter: sepia(100%) hue-rotate(90deg) brightness(1.1) contrast(1.3);">
+             <iframe class="yt-stream" src="video2.mp4" frameborder="0" allow="autoplay; encrypted-media" style="width:100%; height:100%; object-fit:cover;"></iframe>
+        </div>
+        <div class="data-overlay" style="position: absolute; bottom: 10px; left: 10px; font-family: monospace; font-size: 9px; color: var(--neon-green); z-index: 11; opacity: 0.8;">
+            OBJECT_COUNT: 04<br>
+            MOTION_SENSE: ACTIVE
+        </div>
+    </div>
+
+    <div class="cam-box" id="cam3" style="position: relative; background: #000; overflow: hidden; border: 1px solid #1a2a3a;">
+        <div class="cam-header" style="position: absolute; top: 0; left: 0; background: var(--neon-green); color: #000; font-size: 10px; padding: 2px 8px; font-weight: bold; z-index: 15; font-family: 'Orbitron';">
+            CAM 03 // SYSTEM_SENSOR
+        </div>
+        <div class="cam-overlay" style="position: absolute; top: 5px; right: 5px; color: var(--neon-green); font-size: 10px; font-family: 'Rajdhani'; z-index: 15; letter-spacing: 1px;">
+            NODE_STABLE
+        </div>
+        <div class="face-scanner-line"></div>
+        <video id="webcam" autoplay playsinline style="width: 100%; height: 100%; object-fit: cover; filter: sepia(100%) hue-rotate(90deg) brightness(1.1) contrast(1.3);"></video>
+        <div class="data-overlay" style="position: absolute; bottom: 10px; left: 10px; font-family: monospace; font-size: 9px; color: var(--neon-green); z-index: 11; opacity: 0.8;">
+            FACIAL_ENGINE: STANDBY<br>
+            BUFFER: 0ms
+        </div>
+    </div>
+
+    <div class="cam-box" id="cam4" style="position: relative; background: #000; overflow: hidden; border: 1px solid #1a2a3a;">
+        <div class="cam-header" style="position: absolute; top: 0; left: 0; background: var(--neon-green); color: #000; font-size: 10px; padding: 2px 8px; font-weight: bold; z-index: 15; font-family: 'Orbitron';">
+            CAM 04 // MOBILE_AI_UPLINK
+        </div>
+        <div class="cam-overlay" style="position: absolute; top: 5px; right: 5px; color: var(--neon-blue); font-size: 10px; font-family: 'Rajdhani'; z-index: 15; letter-spacing: 1px;">
+            IP: 192.168.1.5
+        </div>
+
+        <div class="face-scanner-line"></div>
+
+        <div id="bio-id-card" style="display: none; position: absolute; top: 40px; right: 10px; width: 140px; background: rgba(0, 0, 0, 0.85); border: 1px solid var(--neon-blue); padding: 10px; z-index: 20; font-family: 'Rajdhani'; box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);">
+            <div style="font-size: 8px; color: var(--neon-blue); letter-spacing: 1px; font-weight: bold;">MOBILE IDENTIFIED</div>
+            <div id="target-name" style="font-size: 14px; font-weight: bold; color: #fff; margin: 4px 0; font-family: 'Orbitron';">SCANNING...</div>
+            <div style="width: 100%; height: 4px; background: #111; margin: 8px 0; border: 1px solid #333;">
+                <div id="match-bar" style="width: 0%; height: 100%; background: var(--neon-green); transition: width 0.8s;"></div>
+            </div>
+            <div id="target-status" style="font-size: 10px; color: var(--neon-green); font-weight: bold;">ANALYZING</div>
+        </div>
+
+        <div class="prediction-engine" style="position: absolute; bottom: 50px; right: 10px; text-align: right; font-family: 'Rajdhani'; color: var(--neon-blue); z-index: 20;">
+            <div style="font-size: 8px; opacity: 0.6;">REMOTE BEHAVIOR ANALYSIS</div>
+            <div id="prob-bar" style="font-size: 16px; font-weight: bold;">STABLE: 98%</div>
+            <div style="font-size: 9px; color: var(--neon-green);" id="intent-tag">INTENT: NEUTRAL</div>
+        </div>
+
+        <img id="mobile-stream" src="http://192.168.1.5:8080/video" style="width:100%; height:100%; object-fit:cover; filter: sepia(100%) hue-rotate(90deg) brightness(1.1) contrast(1.3);" onerror="this.style.display='none'; document.getElementById('uplink-fallback').style.display='flex';">
+
+        <div id="uplink-fallback" style="display:none; width:100%; height:100%; flex-direction:column; justify-content:center; align-items:center; color: var(--alert-red);">
+            <div class="blink" style="font-weight:bold; font-size:1.2rem;">SIGNAL LOST</div>
+            <div style="font-size:9px; color:#555;">RETRYING HANDSHAKE...</div>
+        </div>
+
+        <div class="data-overlay" style="position: absolute; bottom: 10px; left: 10px; font-family: monospace; font-size: 9px; color: var(--neon-green); z-index: 11; opacity: 0.8;">
+            MOBILE_PORT: 8080<br>
+            ENCRYPTION: ACTIVE
+        </div>
+    </div>
+
+</section>
+
+        <aside class="intel-wing">
+            <div class="module-box alert-module">
+                <div class="module-label" style="color: var(--alert-red);">LIVE THREAT STREAM</div>
+                <div id="alerts" class="scroll-v" style="height: 180px; font-family: monospace; font-size: 10px;"></div>
+            </div>
+
+            <div class="module-box timeline-module" style="flex-grow: 1;">
+                <div class="module-label">OPERATIONAL TIMELINE</div>
+                <div id="timeline" class="scroll-v" style="font-family: monospace; font-size: 10px;"></div>
+            </div>
+        </aside>
+    </main>
+
+    <div id="emergency-popup" class="critical-overlay">
+        <div class="alert-content">
+            <h1 class="blink">⚠️ CRITICAL THREAT DETECTED ⚠️</h1>
+            <p id="alert-desc" style="font-size: 1.5rem; margin: 20px 0;">OBJECT: UNIDENTIFIED WEAPON</p>
+            <div class="lock-sim" style="border: 1px solid red; padding: 10px; margin-bottom: 20px;">SECURE PROTOCOL
+                ENGAGED // LOCKDOWN</div>
+            <button class="override-btn" onclick="dismissEmergency()"
+                style="background: var(--alert-red); color: white; border: none; padding: 15px 40px; font-family: 'Orbitron'; cursor: pointer;">MANUAL
+                OVERRIDE</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Force Start Webcam specifically for this page
+        async function initCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const video = document.getElementById('webcam');
+                if (video) video.srcObject = stream;
+            } catch (err) {
+                console.error("Camera access denied", err);
+            }
+        }
+        window.addEventListener('load', initCamera);
+    </script>
+</body>
+
+</html>

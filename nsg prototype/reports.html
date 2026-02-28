@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NSG | INTELLIGENCE ARCHIVE</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="command-center">
+
+    <div class="scanlines"></div>
+
+    <header class="hud-header">
+        <div class="logo-section">
+            <span class="glitch-text" data-text="INTEL-ARCHIVE">INTEL-ARCHIVE</span>
+            <span class="sub-logo">POST-ACTION DATA RETRIEVAL</span>
+        </div>
+        
+        <nav class="hud-nav">
+            <a href="index.html" class="nav-item">SYSTEM HUB</a>
+            <a href="monitor.html" class="nav-item">LIVE OPS</a>
+            <a href="reports.html" class="nav-item active">INTELLIGENCE</a>
+        </nav>
+
+        <div class="system-time">
+            <span id="hex-clock" style="color: var(--neon-blue); font-family: var(--font-heading);">00:00:00</span>
+        </div>
+    </header>
+
+    <main class="reports-layout">
+        
+        <section class="kpi-row">
+            <div class="kpi-box">
+                <label>TOTAL INCIDENTS</label>
+                <div class="value" id="reportCount">0</div>
+            </div>
+            <div class="kpi-box danger">
+                <label>CRITICAL THREATS</label>
+                <div class="value" id="highCount">0</div>
+            </div>
+            <div class="kpi-box warning">
+                <label>ELEVATED ALERTS</label>
+                <div class="value" id="mediumCount">0</div>
+            </div>
+            <div class="kpi-box security">
+                <label>THREAT LEVEL</label>
+                <div class="value" id="riskLevel">SECURE</div>
+            </div>
+        </section>
+
+        <section class="analytics-grid">
+            
+            <div class="analytics-panel">
+                <div class="module-label">THREAT DISTRIBUTION GRAPH</div>
+                <div class="chart-wrapper">
+                    <canvas id="chart" width="500" height="300"></canvas>
+                </div>
+            </div>
+
+            <div class="analytics-panel">
+                <div class="module-label">NEURAL NETWORK INSIGHTS</div>
+                <div class="insight-block">
+                    <p>PRIMARY THREAT VECTOR: <b id="topThreat" style="color: var(--neon-blue);">SCANNING...</b></p>
+                    <p>BEHAVIORAL PATTERN: <span id="behavior">CALCULATING...</span></p>
+                </div>
+                
+                <div class="module-label" style="margin-top:20px;">SYSTEM PULSE</div>
+                <div class="radar-container-large">
+                    <div class="radar-sweep"></div>
+                    <div class="radar-grid"></div>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="log-panel">
+            <div class="module-label">HISTORICAL OPERATION LOGS (DECRYPTED)</div>
+            <div id="logs" class="log-scroll">
+                <div class="log-entry">[00:00:00] INITIALIZING DATABASE...</div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NSG | COMMAND CORE</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="command-center">
+
+    <div class="scanlines"></div>
+
+    <header class="hud-header">
+        <div class="logo-section">
+            <span class="glitch-text" data-text="NSG-TACTICAL">NSG-TACTICAL</span>
+            <span class="sub-logo">DEFENSE COMMAND CORE v9.0.2</span>
+        </div>
+        
+        <nav class="hud-nav">
+            <a href="index.html" class="nav-item active">SYSTEM HUB</a>
+            <a href="monitor.html" class="nav-item">LIVE OPS</a>
+            <a href="reports.html" class="nav-item">INTELLIGENCE</a>
+        </nav>
+
+        <div class="system-time">
+            <span id="hex-date">28.02.26</span>
+            <span id="hex-clock">00:00:00</span>
+        </div>
+    </header>
+
+    <main class="core-container">
+        
+        <section class="hud-wing left">
+            <div class="stat-block">
+                <label>OPERATIONAL STATUS</label>
+                <div class="value neon-text">ACTIVE</div>
+                <div class="progress-bar"><div class="fill" style="width: 100%;"></div></div>
+            </div>
+            <div class="stat-block">
+                <label>SATELLITE UPLINK</label>
+                <div class="value">ENCRYPTED</div>
+                <div class="progress-bar"><div class="fill" style="width: 88%;"></div></div>
+            </div>
+            <div class="stat-block">
+                <label>NETWORK INTEGRITY</label>
+                <div class="value">99.9%</div>
+            </div>
+        </section>
+
+        <section class="neural-core">
+            <div class="core-ring outer"></div>
+            <div class="core-ring middle"></div>
+            <div class="core-ring inner">
+                <div class="threat-level-display">
+                    <span class="label">CURRENT THREAT LEVEL</span>
+                    <span id="threat-status" class="status-safe">CONDITION: GREEN</span>
+                </div>
+            </div>
+            
+            <div class="core-actions">
+                <button class="action-btn" onclick="location.href='monitor.html'">
+                    <span class="btn-glitch">INITIATE LIVE MONITORING</span>
+                </button>
+            </div>
+        </section>
+
+        <section class="hud-wing right">
+            <div class="threat-counter high">
+                <label>CRITICAL THREATS</label>
+                <span id="highCount" class="count">0</span>
+            </div>
+            <div class="threat-counter medium">
+                <label>ELEVATED ALERTS</label>
+                <span id="mediumCount" class="count">0</span>
+            </div>
+            <div class="threat-counter total">
+                <label>TOTAL INCIDENTS</label>
+                <span id="homeAlerts" class="count">0</span>
+            </div>
+
+            <div class="mini-radar-container">
+                <div class="radar-sweep"></div>
+                <div class="radar-grid"></div>
+                <span class="radar-label">AREA SCANNING...</span>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="telemetry-bar">
+        <div class="telemetry-item">LAT: 28.6139° N</div>
+        <div class="telemetry-item">LONG: 77.2090° E</div>
+        <div class="telemetry-item">ALT: 215m</div>
+        <div class="telemetry-item">TEMP: 18°C</div>
+        <div class="scrolling-ticker">
+            <p>SYSTEM INITIALIZED... ALL SENSORS ONLINE... AI THREAT DETECTION ACTIVE... WAITING FOR INPUT...</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
