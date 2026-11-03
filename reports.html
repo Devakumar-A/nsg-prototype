@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NSG | INTELLIGENCE ARCHIVE & SITREP</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="command-center">
+
+    <!-- COMMAND & CONTROL HEADER -->
+    <header class="hud-header">
+        <div class="logo-section">
+            <div class="nsg-insignia">NSG</div>
+            <div class="logo-text-group">
+                <span class="logo-title">INTELLIGENCE ARCHIVE</span>
+                <span class="sub-logo">POST-ACTION ANALYSIS & DEFENSE SITUATION REPORTS</span>
+            </div>
+        </div>
+        
+        <nav class="hud-nav">
+            <a href="index.html" class="nav-item">
+                <span>SYSTEM HUB</span>
+            </a>
+            <a href="monitor.html" class="nav-item">
+                <span>LIVE OPS</span>
+            </a>
+            <a href="reports.html" class="nav-item active">
+                <span>INTELLIGENCE</span>
+            </a>
+        </nav>
+
+        <div class="system-status-group">
+            <div id="defconPill" class="defcon-pill">
+                <span class="pulse-indicator"></span>
+                <span id="threatConditionText">CONDITION: NORMAL</span>
+            </div>
+
+            <div class="clock-cluster">
+                <span class="clock-main" id="hex-clock">00:00:00 IST</span>
+                <span class="clock-sub" id="zulu-clock">000000Z • 03.11.2026</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- REPORTS & INTELLIGENCE LAYOUT -->
+    <main class="reports-layout">
+        
+        <!-- TOP KPI ROW -->
+        <section class="kpi-row">
+            <div class="kpi-card info">
+                <span class="kpi-label">TOTAL SURVEILLANCE LOGS</span>
+                <div class="kpi-value" id="reportCount">0</div>
+            </div>
+            <div class="kpi-card danger">
+                <span class="kpi-label">CRITICAL THREAT ESCALATIONS</span>
+                <div class="kpi-value" id="highCount" style="color: var(--status-critical);">0</div>
+            </div>
+            <div class="kpi-card warning">
+                <span class="kpi-label">ELEVATED MOVEMENT ADVISORIES</span>
+                <div class="kpi-value" id="mediumCount" style="color: var(--status-advisory);">0</div>
+            </div>
+            <div class="kpi-card nominal">
+                <span class="kpi-label">READINESS POSTURE INDEX</span>
+                <div class="kpi-value" id="riskLevel" style="color: var(--status-nominal);">NOMINAL (98.4%)</div>
+            </div>
+        </section>
+
+        <!-- ANALYTICS & SITREP ROW -->
+        <section class="analytics-grid">
+            
+            <!-- THREAT DISTRIBUTION CHART -->
+            <div class="analytics-panel">
+                <div class="panel-title">
+                    <span>INCIDENT DISTRIBUTION BY SECTOR</span>
+                    <span class="panel-badge">TACTICAL TELEMETRY</span>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="chart" width="560" height="230"></canvas>
+                </div>
+            </div>
+
+            <!-- OFFICIAL MILITARY SITREP PREVIEW -->
+            <div class="analytics-panel">
+                <div class="panel-title">
+                    <span>TACTICAL SITREP (SITUATION REPORT)</span>
+                    <button class="action-btn-small" onclick="window.print()" style="padding: 2px 8px; font-size: 0.65rem;">
+                        PRINT SITREP
+                    </button>
+                </div>
+
+                <div class="sitrep-box">
+                    <div class="sitrep-header">
+                        RESTRICTED // FOR OFFICIAL USE ONLY (FOUO)
+                    </div>
+                    <div class="sitrep-row">
+                        <span class="key">DTG (DATE-TIME GROUP):</span>
+                        <span class="val" id="sitrep-dtg">031230Z NOV 26</span>
+                    </div>
+                    <div class="sitrep-row">
+                        <span class="key">REPORTING UNIT:</span>
+                        <span class="val">51 SAG / NSG TASK FORCE HQ</span>
+                    </div>
+                    <div class="sitrep-row">
+                        <span class="key">NATIONAL THREAT POSTURE:</span>
+                        <span class="val" id="sitrep-status" style="color: var(--status-nominal);">GUARDED (DEFCON 4)</span>
+                    </div>
+                    <div class="sitrep-row">
+                        <span class="key">PRIMARY VECTOR:</span>
+                        <span class="val" id="topThreat">PERIMETER VIGIL</span>
+                    </div>
+                    <div class="sitrep-row">
+                        <span class="key">FORCE DISPOSITION:</span>
+                        <span class="val">QRT UNITS ON 5-MIN STANDBY</span>
+                    </div>
+                    <div style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--border-subtle); color: var(--text-muted); font-size: 0.68rem;">
+                        ASSESSMENT: All 6 regional hubs report nominal integrity. Perimeter sensor grids active. No unauthorized penetration verified in central cordons.
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- HISTORICAL LOGS PANEL -->
+        <section class="log-panel">
+            <div class="panel-title">
+                <span>HISTORICAL INCIDENT LOGS (DECRYPTED RECORD)</span>
+                <div style="display: flex; gap: 6px;">
+                    <button class="action-btn-small" onclick="filterLogs('all')">ALL</button>
+                    <button class="action-btn-small" onclick="filterLogs('high')">CRITICAL ONLY</button>
+                    <button class="action-btn-small" onclick="filterLogs('medium')">ELEVATED ONLY</button>
+                </div>
+            </div>
+
+            <div style="overflow-y: auto; max-height: 220px;">
+                <table class="log-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px;">TIMESTAMP</th>
+                            <th style="width: 180px;">REGIONAL SECTOR</th>
+                            <th>INCIDENT DESCRIPTION</th>
+                            <th style="width: 120px;">SEVERITY</th>
+                            <th style="width: 120px;">DISPOSITION</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logsTableBody">
+                        <!-- Dynamic Log Rows -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER TELEMETRY -->
+    <footer class="telemetry-bar">
+        <div class="telemetry-item">BASE: <b>NSG GARRISON HQ</b></div>
+        <div class="telemetry-item">INTELLIGENCE NODE: <b>DELHI-NCR-CENTRAL</b></div>
+        <div class="telemetry-item">DATABASE: <b>POSTGRES-ENC-MIL</b></div>
+        <div class="scrolling-ticker">
+            <p>INTELLIGENCE ARCHIVE ACTIVE // HISTORICAL TELEMETRY VERIFIED // SYSTEM RE-INDEXED EVERY 24 HOURS // RETENTION MANDATE: LEVEL-1 DEFENSE RECORDS...</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
